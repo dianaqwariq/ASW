@@ -12,9 +12,9 @@ class UserModel {
         });
     }
 
-    static async adduser(name, email, password) {
+    static async adduser(name, email, password,skills) {
         return new Promise(resolve => {
-            db.query("INSERT INTO users (name, email, password) VALUES (?, ?, ?)", [name, email, password], (error, results) => {
+            db.query("INSERT INTO users (name, email, password,skills) VALUES (?, ?, ?,?)", [name, email, password,skills], (error, results) => {
                 if (!error) {
                     resolve(true); // User added successfully
                 } else {

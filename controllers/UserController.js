@@ -12,7 +12,10 @@ class UserController {
         var name = req.body.name;
         var email = req.body.email;
         var password = req.body.password;
-        var x = await userModel.adduser(name, email, password);
+
+        var skills=req.body.skills;
+        const userSkills = skills || null;
+        var x = await userModel.adduser(name, email, password,skills);
         if (x === true)
             res.send("added successfully");
         else
