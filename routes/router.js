@@ -22,7 +22,7 @@ router.post("/deleteuser", [
 ], usercontroller.deleteuser);
 
 router.post("/updateuser", usercontroller.updateuser);
-// Example code for creating a task
+
 router.post("/tasks", async (req, res) => {
     try {
         const { task_description, assigned_to, due_date } = req.body;
@@ -54,4 +54,4 @@ router.post("/tasks", async (req, res) => {
     }
 });
 
- module.exports=router
+ module.exports=router;
