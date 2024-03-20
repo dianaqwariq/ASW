@@ -1,3 +1,4 @@
+//router.js in routes folder
 const express = require('express')
 const usercontroller = require("../controllers/UserController")
 const router = require('express').Router();

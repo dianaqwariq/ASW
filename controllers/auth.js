@@ -14,15 +14,17 @@ exports.login = async (req, res) => {
     try {
         const { email, password } = req.body;
         if (!email || !password) {
-            return res.status(400).send(
-                "Please Provide an email and password !!"
-            )
+            return res.status(400).send("Please Provide an email and password !!");
         }
+
         db.query('SELECT * FROM users WHERE email = ?', [email], async (err, results) => {
-            console.log(results);
-            if (!results || !await bcrypt.compare(password, results[0].password)) {
-                res.status(401).send(
-                    'Email or Password is incorrect :((')
+            if (err) {
+                console.error("Error retrieving user:", err);
+                return res.status(500).send('Internal Server Error');
+            }
+
+            if (!results || results.length === 0 || !await bcrypt.compare(password, results[0].password)) {
+                return res.status(401).send('Email or Password is incorrect :((');
             } else {
                 const id = results[0].id;
 
@@ -31,24 +33,17 @@ exports.login = async (req, res) => {
                 });
 
                 console.log("the token is " + token);
-                
 
-                const cookieOptions = {
-                    expires: new Date(
-                        Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
-                    ),
-                    httpOnly: true
-                }
-               
-                res.status(200).send('Signin successfully :) . ' + " Your token is: " + token);
-
-
+                return res.status(200).send(`Signin successfully :) . Your token is: ${token} <br> <a href="/chat">Chat</a>`);
             }
-        })
+        });
     } catch (err) {
         console.log(err);
+        res.status(500).send('Internal Server Error');
     }
 }
+
+
 exports.register = (req, res) => {
     console.log(req.body);
     const { name, email, password, skills, description } = req.body;
@@ -85,36 +80,20 @@ exports.register = (req, res) => {
 
 
 exports.isLoggedIn = async (req, res, next) => {
-    if (req.cookies.userSave) {
-        try {
-            // 1. Verify the token
-            const decoded = await promisify(jwt.verify)(req.cookies.userSave,
-                "9(H(*#HD#(*D9tR()d@#R%"
-            );
-            console.log(decoded);
-
-            // Check if the user exists
-            db.query('SELECT * FROM users WHERE id = ?', [decoded.id], (err, results) => {
-                if (err) {
-                    console.error(err);
-                    return next(err);
-                }
-                if (results.length === 0) {
-                    // User doesn't exist, proceed without setting req.user
-                    return next();
-                }
-                req.user = results[0];
-                return next();
-            });
-        } catch (err) {
-            console.error(err);
-            return next(err);
+    try {
+        if (req.cookies.userSave) {
+            const decoded = jwt.verify(req.cookies.userSave, "9(H(*#HD#(*D9tR()d@#R%");
+            req.user = decoded;
+            next();
+        } else {
+            res.redirect('/login'); // Redirect to login if token is not present
         }
-    } else {
-        // No token present, proceed without setting req.user
-        next();
+    } catch (err) {
+        console.error("Error decoding token:", err);
+        res.redirect('/login'); // Redirect to login if token is invalid
     }
 };
+
 exports.logout = (req, res) => {
     res.status(200).redirect("/");
 }
