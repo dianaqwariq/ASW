@@ -21,17 +21,17 @@
     <button id="showMessagesButton">Show Messages</button>
 
     <script>
-        // Function to display messages in the chat interface
         function displayMessages(messages) {
             const messagesDiv = document.getElementById('messages');
             messagesDiv.innerHTML = ''; // Clear previous messages
-
+    
             messages.forEach(message => {
                 const messageElement = document.createElement('div');
-                messageElement.textContent = `${message.sender_id}: ${message.message} - ${message.timestamp}`;
+                messageElement.textContent = `${message.sender_email}: ${message.message} - ${message.timestamp}`;
                 messagesDiv.appendChild(messageElement);
             });
         }
+    
 
         // Function to fetch messages from the server
         function fetchMessages() {
