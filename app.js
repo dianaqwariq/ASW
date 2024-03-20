@@ -28,19 +28,6 @@ app.get('/chat', (req, res) => {
     res.sendFile("chat.html", { root: './public/' });
 });
 
-app.post('/send-message', (req, res) => {
-    const { message } = req.body;
-    const senderId = req.user.id; // Assuming you have a user object in req.user after authentication
-
-    // Save the message to the database
-    mydb.query('INSERT INTO messages (sender_id, message) VALUES (?, ?)', [senderId, message], (err, result) => {
-        if (err) {
-            console.error("Error saving message:", err);
-            return res.status(500).json({ error: "Internal server error" });
-        }
-        res.status(200).json({ message: "Message sent successfully" });
-    });
-});
 
 
 
