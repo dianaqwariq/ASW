@@ -18,6 +18,7 @@ app.use(express.json());
 
 
 
+
 // Define Routes
 app.use('/', require('./routes/pages'));
 app.use('/auth', require('./routes/auth'));
@@ -42,9 +43,10 @@ app.post('/send-message', (req, res) => {
 });
 
 
+
 app.get('/messages', (req, res) => {
     // Fetch all messages from the database
-   mydb.query('SELECT * FROM messages', (err, results) => {
+    mydb.query('SELECT * FROM messages', (err, results) => {
         if (err) {
             console.error("Error fetching messages:", err);
             return res.status(500).json({ error: "Internal server error" });
@@ -52,6 +54,7 @@ app.get('/messages', (req, res) => {
         res.status(200).json(results);
     });
 });
+
 
 
 // Configure body-parser middleware

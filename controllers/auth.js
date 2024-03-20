@@ -1,3 +1,4 @@
+//auth in controllers
 const mysql = require("mysql");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
@@ -93,6 +94,7 @@ exports.isLoggedIn = async (req, res, next) => {
         res.redirect('/login'); // Redirect to login if token is invalid
     }
 };
+
 
 exports.logout = (req, res) => {
     res.status(200).redirect("/");
