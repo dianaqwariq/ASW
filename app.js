@@ -1,8 +1,7 @@
 
 const express = require('express');
-const bodyParser = require('body-parser'); 
+const bodyParser = require('body-parser');
 const app = express();
-const rout = require('./routes/router');
 const cookieParser = require("cookie-parser");
 const projectRoutes = require('./routes/projects');
 
@@ -25,7 +24,7 @@ app.use('/projects', projectRoutes);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(rout);
+
 
 app.listen(3001, () => {
     console.log('Server is running now');
