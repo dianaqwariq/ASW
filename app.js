@@ -1,10 +1,9 @@
-// app.js file
+
 const express = require('express');
-const bodyParser = require('body-parser'); // Import body-parser
+const bodyParser = require('body-parser'); 
 const app = express();
 const rout = require('./routes/router');
 const cookieParser = require("cookie-parser");
-const dotenv = require("dotenv").config();
 const projectRoutes = require('./routes/projects');
 
 
@@ -28,6 +27,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(rout);
 
-app.listen(3004, () => {
+app.listen(3001, () => {
     console.log('Server is running now');
 });
