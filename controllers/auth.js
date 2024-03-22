@@ -81,7 +81,7 @@ exports.register = (req, res) => {
 
 
 exports.isLoggedIn = async (req, res, next) => {
-    try {
+    
         if (req.cookies.userSave) {
             const decoded = jwt.verify(req.cookies.userSave, "9(H(*#HD#(*D9tR()d@#R%");
             req.user = decoded;
@@ -89,7 +89,7 @@ exports.isLoggedIn = async (req, res, next) => {
         } else {
             res.redirect('/login'); // Redirect to login if token is not present
         }
-    } catch (err) {
+     if (err) {
         console.error("Error decoding token:", err);
         res.redirect('/login'); // Redirect to login if token is invalid
     }

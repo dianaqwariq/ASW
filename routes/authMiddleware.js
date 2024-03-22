@@ -1,4 +1,4 @@
-// authMiddleware.js
+// authMiddleware.js in routes 
 const jwt = require('jsonwebtoken');
 const db = require('../config/db');
 
