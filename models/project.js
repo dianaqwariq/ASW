@@ -9,6 +9,7 @@ const db = mysql.createPool({
 });
 
 
+
 // Get all projects
 const getAllProjects = (callback) => {
   const query = 'SELECT * FROM library';
