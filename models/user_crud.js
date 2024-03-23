@@ -1,8 +1,6 @@
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt');
 const { generateToken } = require("./auth");
 const con = require("../config/db");
-
-
 
 const queryAsync = async (sql, params) => {
     return new Promise((resolve, reject) => {
@@ -16,10 +14,9 @@ const queryAsync = async (sql, params) => {
     });
 };
 
-
 const registerNewAccount = async (req, res) => {
     try {
-        const { NAME: name, EMAIL: email, password, city, location, gender } = req.body;
+        const { name, email, password, city, location, gender } = req.body;
 
         const existingUserQuery = "SELECT email FROM users WHERE email = ?";
         const result = await queryAsync(existingUserQuery, [email.toLowerCase()]);
@@ -29,7 +26,7 @@ const registerNewAccount = async (req, res) => {
         }
 
         const hashPass = await bcrypt.hash(password, 10);
-        const insertProfileQuery = "INSERT INTO users (Name, email, password, city,location,gender) VALUES (?, ?, ?, ?, ?, ?)";
+        const insertProfileQuery = "INSERT INTO users (Name, email, password, city, location, gender) VALUES (?, ?, ?, ?, ?, ?)";
         await queryAsync(insertProfileQuery, [name, email.toLowerCase(), hashPass, city, location, gender]);
 
         return res.status(201).send("Registration successful. You can now proceed.");
@@ -42,33 +39,20 @@ const registerNewAccount = async (req, res) => {
 const login = async (req, res) => {
     try {
         const { email, password } = req.body;
-        const deletedQuery = "SELECT * FROM users WHERE email =?";
-        const isDeleted = await queryAsync(deletedQuery, email);
 
-        if (isDeleted[0].Deleted === 1)
-            return res.status(404).send("User doesn't exist");
+        const userQuery = "SELECT * FROM users WHERE email = ?";
+        const userResult = await queryAsync(userQuery, [email.toLowerCase()]);
 
-        const sql = "SELECT password FROM users WHERE email = ?";
-        const result = await queryAsync(sql, [email.toLowerCase()]);
-
-        if (!result || result.length === 0) {
+        if (!userResult || userResult.length === 0) {
             return res.status(404).send("User doesn't exist");
         }
 
-        const hashedPassword = result[0].password;
+        const hashedPassword = userResult[0].password;
         const isPasswordMatch = await bcrypt.compare(password, hashedPassword);
 
         if (isPasswordMatch) {
-            const userSql = "SELECT * FROM users WHERE email = ?";
-            const userResult = await queryAsync(userSql, [email.toLowerCase()]);
-
-            if (userResult && userResult.length > 0) {
-                const token = generateToken({
-                    EMAIL: userResult[0].email,
-
-                });
-                return res.send(token);
-            }
+            const token = generateToken({ email: userResult[0].email });
+            return res.send(token);
         }
 
         return res.status(401).send("Incorrect email or password");
@@ -79,8 +63,7 @@ const login = async (req, res) => {
 };
 
 
-
 module.exports = {
     registerNewAccount,
     login
-}
+};
