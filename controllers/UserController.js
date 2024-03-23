@@ -39,7 +39,16 @@ class UserController {
             }
         }
     }
-
+    static async getUserById(req, res) {
+        const userId = req.params.userId; // Assuming userId is passed as a route parameter
+        const user = await userModel.getUserById(userId);
+    
+        if (user) {
+            res.send(user);
+        } else {
+            res.status(404).send("User not found."); // Adjust the error response as needed
+        }
+    }
     static async updateuser(req, res) {
         const id = req.body.id;
         const newname = req.body.name;

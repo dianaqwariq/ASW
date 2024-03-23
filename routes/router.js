@@ -22,7 +22,7 @@ router.post("/deleteuser", [
     })
 ], usercontroller.deleteuser);
 
-router.post("/updateuser", usercontroller.updateuser);
+// router.post("/updateuser", usercontroller.updateuser);
 
 router.post("/tasks", async (req, res) => {
     try {

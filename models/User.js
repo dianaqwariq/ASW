@@ -12,6 +12,16 @@ class UserModel {
             });
         });
     }
+    static async getUserById(userId) {
+        return new Promise(resolve => {
+            db.query("SELECT * FROM users WHERE user_id = ?", [userId], (error, results) => {
+                if (!error && results.length > 0)
+                    resolve(results[0]); // Return the first result (assuming user_id is unique)
+                else
+                    resolve(null); // Handle error or user not found appropriately
+            });
+        });
+    }
 
     static async adduser(name, email, password,skills) {
         return new Promise(resolve => {
@@ -51,4 +61,20 @@ class UserModel {
     }
 }
 
+
+class User {
+    static async getUserById(id) {
+        return new Promise((resolve, reject) => {
+            db.query('SELECT * FROM users WHERE id = ?', [id], (err, results) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(results[0]);
+                }
+            });
+        });
+    }
+}
+
+module.exports = User;
 module.exports = UserModel;
