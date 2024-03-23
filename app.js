@@ -12,7 +12,6 @@ const { authenticateTokenHandler } = require("./models/auth");
 app.use("/profile", userProfileRoutes)
 app.use('/projects', authenticateTokenHandler, projectsRouter);
 
-console.log(process.env);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
