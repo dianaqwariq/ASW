@@ -1,31 +1,28 @@
-
 const express = require('express');
-const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+
 const app = express();
-const cookieParser = require("cookie-parser");
-const projectRoutes = require('./routes/projects');
-
-
+const projectsRouter = require('./routes/projects');
 
 app.use(cookieParser());
-app.use(express.static("public"));
-app.use(express.urlencoded({ extended: false }))
+app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+
+
 
 // Define Routes
 app.use('/', require('./routes/pages'));
 app.use('/auth', require('./routes/auth'));
-app.use('/projects', projectRoutes);
 
+app.use('/projects', projectsRouter);
 
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+});
 
-
-// Configure body-parser middleware
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
-
-
+// Start server
 app.listen(3001, () => {
     console.log('Server is running now');
 });

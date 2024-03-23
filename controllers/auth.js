@@ -1,4 +1,4 @@
-
+// auth.js in controllers
 const mysql = require("mysql");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
@@ -29,9 +29,10 @@ exports.login = async (req, res) => {
             } else {
                 const id = results[0].id;
 
-                const token = jwt.sign({ id }, "9(H(*#HD#(*D9tR()d@#R%", {
+                const token = jwt.sign({ id }, '9(H(*#HD#(*D9tR()d@#R%', {
                     expiresIn: "90d"
                 });
+
 
                 console.log("the token is " + token);
 
@@ -83,7 +84,7 @@ exports.register = (req, res) => {
 exports.isLoggedIn = async (req, res, next) => {
     try {
         if (req.cookies.userSave) {
-            const decoded = jwt.verify(req.cookies.userSave, "9(H(*#HD#(*D9tR()d@#R%");
+            const decoded = jwt.verify(req.cookies.userSave, '9(H(*#HD#(*D9tR()d@#R%');
             req.user = decoded;
             next();
         } else {

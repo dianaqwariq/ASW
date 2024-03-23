@@ -1,4 +1,4 @@
-//auth.js in routes folder
+
 const express = require("express");
 const authController = require("../controllers/auth");
 const router = express.Router();
