@@ -3,7 +3,6 @@ const express = require('express');
 const app = express();
 const mydb = require('./config/db');
 
-const rout = require('./routes/router');
 const dotenv = require("dotenv").config();
 const cookieParser = require("cookie-parser");
 
@@ -19,16 +18,14 @@ const { authenticateTokenHandler } = require("./models/auth");
 
 
 app.post("/updateuser", usercontroller.updateuser);
-// Define Routes
-app.use('/', require('./routes/pages'));
-//app.use('/auth', require('./routes/auth'));
+
 
 // Route for sending messages
 app.post('/send-message', chatController.sendMessage); // Add this line
 
-app.get('/chat', (req, res) => {
-    res.sendFile("chat.html", { root: './public/' });
-});
+// app.get('/chat', (req, res) => {
+//     res.sendFile("chat.html", { root: './public/' });
+// });
 
 app.get('/messages', (req, res) => {
     // Fetch all messages from the database
@@ -43,7 +40,6 @@ app.get('/messages', (req, res) => {
 
 
 
-app.use(rout);
 
 app.listen(3001, () => {
     console.log('Server is running now');
