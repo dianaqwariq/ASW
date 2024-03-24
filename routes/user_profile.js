@@ -1,12 +1,12 @@
 const { Router } = require("express");
 const {
     login,
-    registerNewAccount,
-
+    signup,
 } = require('../models/user_crud');
 
+
 const userProfileRouts = Router();
-userProfileRouts.post('/register', registerNewAccount);
+userProfileRouts.post('/register', signup);
 userProfileRouts.post('/login', login);
 
 

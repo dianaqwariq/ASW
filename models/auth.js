@@ -6,10 +6,10 @@ const authenticateTokenHandler = (req, res, next) => {
     const authHeader = req.headers.authorization;
 
     if (authHeader) {
-        const token = authHeader.split(' ')[1]; // Extract token from header
+        const token = authHeader.split(' ')[1];
         jwt.verify(token, process.env.SECRET_KEY || 'fallbackSecret', (err, user) => {
             if (err) {
-                console.error(err); // Log verification errors
+                console.error(err);
                 return res.sendStatus(403);
             }
             req.user = user;
@@ -21,7 +21,7 @@ const authenticateTokenHandler = (req, res, next) => {
 };
 
 const generateToken = (user) => {
-    return jwt.sign(user, process.env.SECRET_KEY || 'fallbackSecret', { expiresIn: '1h' });
+    return jwt.sign(user, process.env.SECRET_KEY || 'fallbackSecret', { expiresIn: '24h' });
 };
 
 module.exports = {

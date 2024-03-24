@@ -1,6 +1,5 @@
 
 const mysql = require("mysql");
-
 const db = mysql.createPool({
   host: "localhost",
   user: "root",
@@ -10,7 +9,7 @@ const db = mysql.createPool({
 
 
 
-// Get all projects
+
 const getAllProjects = (callback) => {
   const query = 'SELECT * FROM library';
   db.query(query, (err, results) => {
@@ -24,7 +23,8 @@ const getAllProjects = (callback) => {
 };
 
 
-// Add a new project
+
+
 const addProject = (projectData, callback) => {
   const { ProjectID, ownerID, skills, materials, group_size } = projectData;
   const query = 'INSERT INTO library (ProjectID, ownerID, skills, materials, group_size) VALUES (?, ?, ?, ?, ?)';
@@ -40,7 +40,6 @@ const addProject = (projectData, callback) => {
 
 
 
-// Get projects by group size
 const getProjectsByGroupSize = (groupSize, callback) => {
   const query = 'SELECT * FROM library WHERE group_size = ?';
   db.query(query, [groupSize], (err, results) => {

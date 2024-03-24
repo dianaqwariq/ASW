@@ -5,6 +5,9 @@ const app = express();
 const mydb = require('./config/db');
 const projectsRouter = require('./routes/projects');
 const userProfileRoutes = require('./routes/user_profile')
+const { authenticateTokenHandler } = require("./models/auth");
+
+
 app.use(express.urlencoded({ extended: false }));
 const dotenv = require("dotenv").config();
 const cookieParser = require("cookie-parser");
@@ -18,15 +21,12 @@ app.use(express.urlencoded({ extended: false }))
 app.use(express.json());
 const taskController = require('./controllers/taskController');
 
-const { authenticateTokenHandler } = require("./models/auth");
 
-
-// Define Routes
 app.use("/profile", userProfileRoutes)
 app.use('/projects', authenticateTokenHandler, projectsRouter);
 
 
-// Error handling middleware
+
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('Something broke!');
@@ -41,6 +41,7 @@ app.post('/send-message', authenticateTokenHandler ,chatController.sendMessage);
 
 
 
+
 app.get('/messages', authenticateTokenHandler,(req, res) => {
     // Fetch all messages from the database
     mydb.query('SELECT * FROM messages', (err, results) => {
@@ -51,6 +52,7 @@ app.get('/messages', authenticateTokenHandler,(req, res) => {
         res.status(200).json(results);
     });
 });
+
 
 app.listen(3001, () => {
     console.log('Server is running now');
