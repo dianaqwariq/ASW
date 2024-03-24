@@ -14,7 +14,7 @@ const queryAsync = async (sql, params) => {
     });
 };
 
-const registerNewAccount = async (req, res) => {
+const signup = async (req, res) => {
     try {
         const { name, email, password, city, location, gender } = req.body;
 
@@ -64,6 +64,6 @@ const login = async (req, res) => {
 
 
 module.exports = {
-    registerNewAccount,
+    signup,
     login
 };
