@@ -3,7 +3,7 @@
 const mydb = require('./config/db');
 
 
-const authMessages=(premissions)=>{
+const authUpdate=(premissions)=>{
 return (req,res,next)=>{
     const userRole=req.body.role
     if(premissions.includes(userRole)){
@@ -15,8 +15,5 @@ return (req,res,next)=>{
     }
 };
 
-const authUpdate=(req,res,next)=>{
 
-}
-
-module.exports={authUpdate,authMessages}
+module.exports={authUpdate}

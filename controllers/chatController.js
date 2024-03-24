@@ -1,3 +1,4 @@
+//chatController.js in controllers
 const db = require('../config/db');
 
 exports.sendMessage = (req, res) => {

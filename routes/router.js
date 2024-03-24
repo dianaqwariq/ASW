@@ -24,7 +24,8 @@ router.post("/deleteuser", [
 
 // router.post("/updateuser", usercontroller.updateuser);
 
-router.post("/tasks", async (req, res) => {
+
+router.post('/tasks', async (req, res) => {
     try {
         const { task_description, assigned_to, due_date } = req.body;
         
