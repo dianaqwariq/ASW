@@ -22,14 +22,14 @@ const signup = async (req, res) => {
         const result = await queryAsync(existingUserQuery, [email.toLowerCase()]);
 
         if (result.length) {
-            return res.status(400).send("Email already exists");
+            return res.status(400).send("Email already exists !");
         }
 
         const hashPass = await bcrypt.hash(password, 10);
         const insertProfileQuery = "INSERT INTO users (Name, email, password, city, location, gender) VALUES (?, ?, ?, ?, ?, ?)";
         await queryAsync(insertProfileQuery, [name, email.toLowerCase(), hashPass, city, location, gender]);
 
-        return res.status(201).send("Registration successful. You can now proceed.");
+        return res.status(201).send("Registration successful :)");
     } catch (error) {
         console.error("Error during registration:", error);
         return res.status(500).send("Internal Server Error");
@@ -44,7 +44,7 @@ const login = async (req, res) => {
         const userResult = await queryAsync(userQuery, [email.toLowerCase()]);
 
         if (!userResult || userResult.length === 0) {
-            return res.status(404).send("User doesn't exist");
+            return res.status(404).send("User doesn't exist !");
         }
 
         const hashedPassword = userResult[0].password;
@@ -55,7 +55,7 @@ const login = async (req, res) => {
             return res.send(token);
         }
 
-        return res.status(401).send("Incorrect email or password");
+        return res.status(401).send("Incorrect email or password :(");
     } catch (error) {
         console.error("Error during login:", error);
         return res.status(500).send("Internal Server Error");
