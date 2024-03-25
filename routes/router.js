@@ -21,6 +21,9 @@ router.post("/deleteuser", [
     })
 ], usercontroller.deleteuser);
 
+router.post("/updateuser", usercontroller.updateuser);
+ module.exports=router
+
 router.get("/user/:id", [
     check("id").custom((value, { req }) => {
         if (!value) {
@@ -41,4 +44,5 @@ router.get("/allSkills", usercontroller.getAllSkills);
 
 
 router.post("/updateuser/:id", usercontroller.updateUser);
+
  module.exports=router
