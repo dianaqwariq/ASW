@@ -31,9 +31,9 @@ app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('Something broke!');
 });
-app.post("/updateuser", authenticateTokenHandler ,authUpdate(["admin"]),usercontroller.updateuser);
+//app.post("/updateuser", authenticateTokenHandler ,authUpdate(["admin"]),usercontroller.updateuser);
 
-app.get("/allusers", usercontroller.getalluser)
+//app.get("/allusers", usercontroller.getalluser)
 app.get("/alltasks", authenticateTokenHandler, taskController.getAlltasks)
 app.post("/addTask", authenticateTokenHandler,taskController.addtask)
 app.post("/update_satus", authenticateTokenHandler,taskController.updateTaskStatus)

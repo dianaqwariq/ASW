@@ -1,4 +1,3 @@
-//User.js in models folder
 const db = require("../config/db");
 
 class UserModel {
@@ -13,16 +12,10 @@ class UserModel {
             });
         });
     }
-<<<<<<< Updated upstream
-    static async getUserById(userId) {
-        return new Promise(resolve => {
-            db.query("SELECT * FROM users WHERE user_id = ?", [userId], (error, results) => {
-=======
 
     static async getUserById(userId) {
         return new Promise(resolve => {
             db.query("SELECT * FROM users WHERE id = ?", [userId], (error, results) => {
->>>>>>> Stashed changes
                 if (!error && results.length > 0)
                     resolve(results[0]); // Return the first result (assuming user_id is unique)
                 else
@@ -30,20 +23,11 @@ class UserModel {
             });
         });
     }
-<<<<<<< Updated upstream
-
-    static async adduser(name, email, password,skills) {
-        return new Promise(resolve => {
-            db.query("INSERT INTO users (name, email, password,skills) VALUES (?, ?, ?,?)", [name, email, password,skills], (error, results) => {
-                if (!error) {
-                    resolve(true); // User added successfully
-=======
     static async getUserByName(name) {
         return new Promise(resolve => {
             db.query("SELECT * FROM users WHERE name = ?", [name], (error, results) => {
                 if (!error && results.length > 0) {
                     resolve(results[0]); // Return the first result (assuming name is unique)
->>>>>>> Stashed changes
                 } else {
                     resolve(null); // Handle error or user not found appropriately
                 }
@@ -121,20 +105,4 @@ class UserModel {
     }
 }
 
-
-class User {
-    static async getUserById(id) {
-        return new Promise((resolve, reject) => {
-            db.query('SELECT * FROM users WHERE id = ?', [id], (err, results) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(results[0]);
-                }
-            });
-        });
-    }
-}
-
-module.exports = User;
 module.exports = UserModel;
