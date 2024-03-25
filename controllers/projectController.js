@@ -22,7 +22,7 @@ const addProject = (req, res) => {
       res.status(500).json({ error: 'Failed to add project' });
       return;
     }
-    res.json({ message: 'Project added successfully', projectId: result.insertId });
+    res.json({ message: 'Project added successfully :)', projectId: result.insertId });
   });
 };
 
