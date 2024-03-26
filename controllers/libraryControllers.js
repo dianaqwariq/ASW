@@ -1,5 +1,4 @@
-
-const Project = require('../models/library_crud');
+const Project = require('../models/project');
 
 
 const getAllProjects = (req, res) => {
