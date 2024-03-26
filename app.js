@@ -22,12 +22,10 @@ const { authenticateTokenHandler } = require("./models/auth");
 
 app.use(express.urlencoded({ extended: false }));
 const dotenv = require("dotenv").config();
-const cookieParser = require("cookie-parser");
 const{authUpdate}=require("./authMiddleware")
 // Import your chat controller
 const chatController = require('./controllers/chatController');
 const usercontroller = require('./controllers/UserController');
-app.use(cookieParser());
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json());
