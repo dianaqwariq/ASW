@@ -21,7 +21,7 @@ const taskController = require('./controllers/taskController');
 
 
 app.use("/profile", userProfileRoutes)
-app.use('/projects', authenticateTokenHandler, projectsRouter);
+app.use('/library', authenticateTokenHandler, projectsRouter);
 
 
 
@@ -29,6 +29,7 @@ app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('Something broke!');
 });
+
 app.post("/updateuser", authenticateTokenHandler ,authUpdate(["admin"]),usercontroller.updateuser);
 
 app.get("/allusers", usercontroller.getalluser)
