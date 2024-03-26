@@ -1,20 +1,21 @@
-//User.js in models folder
 const db = require("../config/db");
 
 class UserModel {
-    static async getusers() {
+    static async getcraftskills() {
         return new Promise(resolve => {
-            db.query("SELECT * FROM users", [], (error, results) => {
+            db.query("SELECT * FROM library", [], (error, results) => {
                 if (!error)
                     resolve(results);
                 else
+                
                     resolve([]); // Handle error appropriately
             });
         });
     }
+
     static async getUserById(userId) {
         return new Promise(resolve => {
-            db.query("SELECT * FROM users WHERE user_id = ?", [userId], (error, results) => {
+            db.query("SELECT * FROM users WHERE id = ?", [userId], (error, results) => {
                 if (!error && results.length > 0)
                     resolve(results[0]); // Return the first result (assuming user_id is unique)
                 else
@@ -22,19 +23,62 @@ class UserModel {
             });
         });
     }
-
-    static async adduser(name, email, password,skills) {
+    static async getUserByName(name) {
         return new Promise(resolve => {
-            db.query("INSERT INTO users (name, email, password,skills) VALUES (?, ?, ?,?)", [name, email, password,skills], (error, results) => {
-                if (!error) {
-                    resolve(true); // User added successfully
+            db.query("SELECT * FROM users WHERE name = ?", [name], (error, results) => {
+                if (!error && results.length > 0) {
+                    resolve(results[0]); // Return the first result (assuming name is unique)
                 } else {
-                    console.error("Error adding user:", error);
-                    resolve(false); // Failed to add user
+                    resolve(null); // Handle error or user not found appropriately
                 }
             });
         });
     }
+    static async getoneskills(skills) {
+        return new Promise(resolve => {
+            db.query("SELECT * FROM library WHERE skills = ?", [skills], (error, results) => {
+                if (!error && results.length > 0) {
+                    resolve(results[0]); // Return the first result (assuming name is unique)
+                } else {
+                    resolve(null); // Handle error or user not found appropriately
+                }
+            });
+        });
+    }
+    static async getAllSkills() {
+        return new Promise(resolve => {
+            db.query("SELECT skills FROM library", (error, results) => {
+                if (!error) {
+                    const skills = results.map(row => row.skills); // Extract the skills from each row
+                    resolve(skills); // Return only the skills column from the library table
+                } else {
+                    console.error("Error retrieving skills:", error);
+                    resolve([]); // Handle error appropriately
+                }
+            });
+        });
+    }
+    
+    
+    
+
+    static async addUser(id, name, email, password, city, location, phone, gender) {
+        return new Promise((resolve, reject) => {
+            db.query("INSERT INTO users (id, name, email, password, city, location, phone, gender) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                [id, name, email, password, city, location, phone, gender],
+                (error, result) => {
+                    if (error) {
+                        console.error("Error adding user:", error);
+                        reject(error); // Reject with error if insertion fails
+                    } else {
+                        resolve(result); // Resolve with the result if insertion succeeds
+                    }
+                });
+        });
+    }
+    
+    
+
 
     static async deleteuser(id){
         return new Promise((resolve, reject) => {
@@ -47,9 +91,9 @@ class UserModel {
         });
     }
 
-    static async edit(id, name, email, password) {
+    static async updateUserById(id,name, email, password,city,location,phone,gender) {
         return new Promise((resolve, reject) => {
-            db.query("UPDATE users SET name = ?, email = ?, password = ? WHERE id = ?", [name, email, password, id], (error, result) => {
+            db.query("UPDATE users SET name = ?, email = ?, password = ?, city=?, location=?, phone=?, gender=? WHERE id = ?", [id,name, email, password,city,location,phone,gender], (error, result) => {
                 if (error) {
                     console.error("Error editing user:", error);
                     resolve(false); // Failed to edit user
@@ -61,20 +105,4 @@ class UserModel {
     }
 }
 
-
-class User {
-    static async getUserById(id) {
-        return new Promise((resolve, reject) => {
-            db.query('SELECT * FROM users WHERE id = ?', [id], (err, results) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(results[0]);
-                }
-            });
-        });
-    }
-}
-
-module.exports = User;
 module.exports = UserModel;

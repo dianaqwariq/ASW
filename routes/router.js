@@ -1,15 +1,14 @@
-//router.js in routes folder
-const express = require('express')
-const usercontroller = require("../controllers/UserController")
-const router = require('express').Router();
-const { check } = require("express-validator");
+const express=require('express')
+const usercontroller=require("../controllers/UserController")
+const  router= require('express').Router();
+const {check}=require ("express-validator");
 
 
 router.get("/", (req, res, next) => {
     res.send("diana")
-})
-router.get("/allusers", usercontroller.getalluser)
-router.post("/adduser", usercontroller.addnewuser)
+     })
+router.get("/allcraftskills",usercontroller.getallcraftskills)
+router.post("/adduser",usercontroller.addUser)
 router.post("/deleteuser", [
     check("id").custom((value, { req }) => {
         if (!value) {
@@ -22,7 +21,20 @@ router.post("/deleteuser", [
     })
 ], usercontroller.deleteuser);
 
-// router.post("/updateuser", usercontroller.updateuser);
+router.post("/updateuser", usercontroller.updateuser);
+ module.exports=router
+
+router.get("/user/:id", [
+    check("id").custom((value, { req }) => {
+        if (!value) {
+            throw new Error("id is required");
+        }
+        if (isNaN(value)) {
+            throw new Error("id should be only number");
+        }
+        return true; // Indicates the success of the validation
+    })
+], usercontroller.getUserById);
 
 
 router.post('/tasks', async (req, res) => {
@@ -35,11 +47,13 @@ router.post('/tasks', async (req, res) => {
             [assigned_to]
         );
 
-        const userExists = userExistsQuery.length > 0;
+router.get("/userByName/:name", usercontroller.getUserByName);
+router.get("/skill/:skills",usercontroller.getskill);
+router.get("/allSkills", usercontroller.getAllSkills);
 
-        if (!userExists) {
-            return res.status(400).json({ error: "Assigned user does not exist" });
-        }
+
+
+
 
         // Insert task into the database
         const result = await db.query(
@@ -57,3 +71,9 @@ router.post('/tasks', async (req, res) => {
 });
 
 module.exports = router;
+
+
+router.post("/updateuser/:id", usercontroller.updateUser);
+
+ module.exports=router
+
