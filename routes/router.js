@@ -5,7 +5,7 @@ const router = require('express').Router();
 const { check } = require("express-validator");
 
 
-router.get("/",(req,res,next)=>{
+router.get("/", (req, res, next) => {
     res.send("diana")
 })
 router.get("/allusers", usercontroller.getalluser)
@@ -28,7 +28,7 @@ router.post("/deleteuser", [
 router.post('/tasks', async (req, res) => {
     try {
         const { task_description, assigned_to, due_date } = req.body;
-        
+
         // Check if the assigned user exists
         const userExistsQuery = await db.query(
             "SELECT * FROM users WHERE id = ?",
@@ -56,4 +56,4 @@ router.post('/tasks', async (req, res) => {
     }
 });
 
- module.exports=router;
+module.exports = router;
