@@ -1,11 +1,24 @@
+
+
+
 //app.js
 const express = require('express');
 const app = express();
 const mydb = require('./config/db');
 //const projectsRouter = require('./routes/projects');
  const userProfileRoutes = require('./routes/user_profile')
-// const libraryRouter = require('./routes/library');
+//const libraryRouter = require('./routes/library');
 const path=require("path")
+
+const bodyParser = require('body-parser'); 
+
+const  projectRoutes = require('./routes/routerProject');
+
+app.use(bodyParser.json()); 
+app.use(bodyParser.urlencoded({ extended: true }));
+
+
+
 const dotenv = require("dotenv").config();
 const cookieParser = require("cookie-parser");
 const{authdelete}=require("./authMiddleware")
@@ -83,6 +96,16 @@ app.get('/messages', authenticateTokenHandler,(req, res) => {
         res.status(200).json(results);
     });
 });
+
+
+app.use ("/allproject/skills/projectID/picture/ofCompletaion" ,express.static(path.join(__dirname,"images")));  //localhost:3001allproject/skills/projectID/picture/ofCompletaion/tat.jpg
+
+app.use("/allproject/skills/projectID/picture/ofMaterial" ,express.static(path.join(__dirname,"images"))); //localhost:3001allproject/skills/projectID/picture/ofCompletaion/tat.jpg
+
+app.use("/allproject/skills/addpicture" ,require("./routes/upload")); // to upload in postman
+
+
+  app.use(projectRoutes);                                //allproject/skills to chooice or show all proj
 
 
 app.listen(3001, () => {

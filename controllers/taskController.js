@@ -1,6 +1,6 @@
-//taskController.js in controllers folder
+
 const tasks = require('../models/tasks');
-const db = require('../config/db'); // Import db connection
+const db = require('../config/db'); 
 
 
 const getAlltasks = (req, res) => {
