@@ -5,9 +5,8 @@
 const express = require('express');
 const app = express();
 const mydb = require('./config/db');
-//const projectsRouter = require('./routes/projects');
  const userProfileRoutes = require('./routes/user_profile')
-//const libraryRouter = require('./routes/library');
+const libraryRouter = require('./routes/library');
 const path=require("path")
 
 const bodyParser = require('body-parser'); 
@@ -51,7 +50,7 @@ app.use(express.urlencoded({ extended: false }))
 app.use(express.json());
 const taskController = require('./controllers/taskController');
 //app.post("/updateuser", authenticateTokenHandler ,authUpdate(["admin"]),usercontroller.updateuser);
-//app.use('/library', authenticateTokenHandler, libraryRouter);
+app.use('/library', authenticateTokenHandler, libraryRouter);
 app.post("/deleteuser",authenticateTokenHandler,authdelete(["admin"]), [
     check("id").custom((value, { req }) => {
         if (!value) {

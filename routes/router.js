@@ -11,17 +11,7 @@ router.get("/",(req,res,next)=>{
 
 router.get("/allcraftskills",usercontroller.getallcraftskills)
 router.post("/adduser",usercontroller.addUser)
-// router.post("/deleteuser", [
-//     check("id").custom((value, { req }) => {
-//         if (!value) {
-//             throw new Error("id is required");
-//         }
-//         if (isNaN(value)) {
-//             throw new Error("id should be only number");
-//         }
-//         return true; // Indicates the success of the validation
-//     })
-// ], usercontroller.deleteuser);
+
 
 router.post("/updateuser", usercontroller.updateuser);
  
