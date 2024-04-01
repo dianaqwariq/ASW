@@ -96,18 +96,38 @@ class UserController {
             }
         }
     }
+ 
     static async updateuser(req, res) {
-        const id = req.body.id;
-        const newname = req.body.name;
-        const newemail = req.body.email;
-        const newpass = req.body.password;
-
-        var x = await userModel.edit(id, newname, newemail, newpass);
-        if (x)
-            res.send("updated successfully");
-        else
-            res.send("update failed");
+        const { id } = req.params;
+        const { name, email, password, city, location, phone, gender } = req.body;
+        const user = req.user; // Extract authenticated user information from the token
+    
+        // Validate if the user is authorized to update
+        if (!user || (user.role !== 'admin' && user.id !== id)) {
+            return res.status(403).send("You do not have permission to update this user.");
+        }
+    
+        try {
+            // Check if the user is an admin or if the user ID from the token matches the ID being updated
+            if (user.role === 'admin' || user.id === id) {
+                const result = await userModel.updateUserById(id, name, email, password, city, location, phone, gender);
+                if (result) {
+                    return res.send("User updated successfully");
+                } else {
+                    return res.status(404).send("User not found or failed to update user");
+                }
+            } else {
+                return res.status(403).send("You do not have permission to update this user.");
+            }
+        } catch (error) {
+            console.error("Error updating user:", error);
+            return res.status(500).send("Internal server error");
+        }
     }
+    
+    
+    
+    
 }
 
 module.exports = UserController;

@@ -24,9 +24,7 @@ const cookieParser = require("cookie-parser");
 const { fetchTemperature } = require('./weatherService');
 
 const { authenticateTokenHandler } = require("./models/auth");
-//const projectRoutes = require('./routes/routerProject');
 
-//app.use("/users", userRoutes);
 app.get('/temperature', async (req, res) => {
     try {
         const city = req.query.city || 'nablus'; 
@@ -50,12 +48,10 @@ app.use(express.json());
 const taskController = require('./controllers/taskController');
 app.use('/', router);
 
-//app.post("/updateuser", authenticateTokenHandler ,authUpdate(["admin"]),usercontroller.updateuser);
 app.use('/library', authenticateTokenHandler, libraryRouter);
 
 
 app.use("/profile", userProfileRoutes)
- //app.use('/projects', authenticateTokenHandler, projectsRouter);
 
 
 

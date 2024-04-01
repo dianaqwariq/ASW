@@ -1,3 +1,4 @@
+//User in models folder
 const db = require("../config/db");
 
 class UserModel {

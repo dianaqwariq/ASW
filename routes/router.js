@@ -4,13 +4,12 @@ const usercontroller = require("../controllers/UserController");
 const router = require('express').Router();
 const { check } = require("express-validator");
 const { authenticateTokenHandler } = require("../models/auth");
-const{authdelete}=require("../authMiddleware");
 
 
 router.get("/allcraftskills", authenticateTokenHandler,usercontroller.getallcraftskills)
 router.post("/adduser",usercontroller.addUser)
 
-router.post("/deleteuser",authenticateTokenHandler,authdelete(["admin"]), [
+router.post("/deleteuser",authenticateTokenHandler, [
     check("id").custom((value, { req }) => {
         if (!value) {
             throw new Error("id is required");
@@ -21,7 +20,7 @@ router.post("/deleteuser",authenticateTokenHandler,authdelete(["admin"]), [
         return true; // Indicates the success of the validation
     })
 ],  usercontroller.deleteuser);
-//router.post("/updateuser", usercontroller.updateuser);
+router.post("/updateuser", usercontroller.updateuser);
  
 
 router.get("/user/:id", [
