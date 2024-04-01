@@ -28,8 +28,8 @@ const addtask = (req, res) => {
 
   const updateTaskStatus = (req, res) => {
     const { taskId, newStatus } = req.body;
-    const userEmail = req.user.email; // Get the email from the decoded token
-    console.log('User Email:', userEmail); // Debugging log
+    const userEmail = req.user.email; 
+    console.log('User Email:', userEmail); 
 
     const updateQuery = 'UPDATE tasks SET status = ? WHERE task_id = ? AND assigned_to = (SELECT id FROM users WHERE email = ?)';
     db.query(updateQuery, [newStatus, taskId, userEmail], (err, result) => {

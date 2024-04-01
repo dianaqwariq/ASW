@@ -17,7 +17,7 @@ router.post("/deleteuser",authenticateTokenHandler, [
         if (isNaN(value)) {
             throw new Error("id should be only number");
         }
-        return true; // Indicates the success of the validation
+        return true; 
     })
 ],  usercontroller.deleteuser);
 router.post("/updateuser", usercontroller.updateuser);
@@ -31,7 +31,7 @@ router.get("/user/:id", [
         if (isNaN(value)) {
             throw new Error("id should be only number");
         }
-        return true; // Indicates the success of the validation
+        return true; 
     })
 ], authenticateTokenHandler, usercontroller.getUserById);
 

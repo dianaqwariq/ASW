@@ -11,17 +11,17 @@ class UserController {
     }
 
     static async getUserById(req, res) {
-        const userId = req.params.id; // Assuming userId is passed as a route parameter
+        const userId = req.params.id;
         const user = await userModel.getUserById(userId);
     
         if (user) {
             res.send(user);
         } else {
-            res.status(404).send("User not found."); // Adjust the error response as needed
+            res.status(404).send("User not found."); 
         }
     }
     static async getUserByName(req, res) {
-        const { name } = req.params; // Assuming name is passed as a route parameter
+        const { name } = req.params; 
         const user = await userModel.getUserByName(name);
     
         if (user) {
@@ -31,7 +31,7 @@ class UserController {
         }
     }
     static async getskill(req, res) {
-        const { skills } = req.params; // Assuming name is passed as a route parameter
+        const { skills } = req.params; 
         const skill = await userModel.getoneskills(skills);
     
         if (skill) {
@@ -68,10 +68,10 @@ class UserController {
 
     static async deleteuser(req, res) {
         const { id } = req.body;
-        const { user } = req; // Extract authenticated user information
+        const { user } = req; 
         const errors = validationResult(req);
 
-        // Check for validation errors
+    
         if (!errors.isEmpty()) {
             return res.json(errors.array());
         }
@@ -81,7 +81,7 @@ class UserController {
             return res.status(403).send("You do not have permission to delete users.");
         }
 
-        // Proceed with user deletion
+      
         if (id) {
             try {
                 const result = await userModel.deleteuser(id);
@@ -100,15 +100,13 @@ class UserController {
     static async updateuser(req, res) {
         const { id } = req.params;
         const { name, email, password, city, location, phone, gender } = req.body;
-        const user = req.user; // Extract authenticated user information from the token
+        const user = req.user; 
     
-        // Validate if the user is authorized to update
         if (!user || (user.role !== 'admin' && user.id !== id)) {
             return res.status(403).send("You do not have permission to update this user.");
         }
     
         try {
-            // Check if the user is an admin or if the user ID from the token matches the ID being updated
             if (user.role === 'admin' || user.id === id) {
                 const result = await userModel.updateUserById(id, name, email, password, city, location, phone, gender);
                 if (result) {

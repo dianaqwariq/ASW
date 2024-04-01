@@ -11,7 +11,7 @@ class ProjectModel {
                     });
                     resolve(formattedResults);
                 } else {
-                    reject(error); // Handle error appropriately
+                    reject(error); 
                 }
             });
         });

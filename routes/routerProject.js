@@ -22,7 +22,7 @@ router.post ("/allproject/skills/projectID", authenticateTokenHandler, [
         if (isNaN(value)) {
             throw new Error("id should be only number");
         }
-        return true; // Indicates the success of the validation
+        return true; 
     })
 ], ProjectController.getProjectByID);
 

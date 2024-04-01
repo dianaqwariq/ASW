@@ -9,7 +9,7 @@ class UserModel {
                     resolve(results);
                 else
                 
-                    resolve([]); // Handle error appropriately
+                    resolve([]); 
             });
         });
     }
@@ -18,9 +18,9 @@ class UserModel {
         return new Promise(resolve => {
             db.query("SELECT * FROM users WHERE id = ?", [userId], (error, results) => {
                 if (!error && results.length > 0)
-                    resolve(results[0]); // Return the first result (assuming user_id is unique)
+                    resolve(results[0]); 
                 else
-                    resolve(null); // Handle error or user not found appropriately
+                    resolve(null); 
             });
         });
     }
@@ -28,9 +28,9 @@ class UserModel {
         return new Promise(resolve => {
             db.query("SELECT * FROM users WHERE name = ?", [name], (error, results) => {
                 if (!error && results.length > 0) {
-                    resolve(results[0]); // Return the first result (assuming name is unique)
+                    resolve(results[0]); 
                 } else {
-                    resolve(null); // Handle error or user not found appropriately
+                    resolve(null); 
                 }
             });
         });
@@ -39,9 +39,9 @@ class UserModel {
         return new Promise(resolve => {
             db.query("SELECT * FROM library WHERE skills = ?", [skills], (error, results) => {
                 if (!error && results.length > 0) {
-                    resolve(results[0]); // Return the first result (assuming name is unique)
+                    resolve(results[0]); 
                 } else {
-                    resolve(null); // Handle error or user not found appropriately
+                    resolve(null); 
                 }
             });
         });
@@ -50,11 +50,11 @@ class UserModel {
         return new Promise(resolve => {
             db.query("SELECT skills FROM library", (error, results) => {
                 if (!error) {
-                    const skills = results.map(row => row.skills); // Extract the skills from each row
-                    resolve(skills); // Return only the skills column from the library table
+                    const skills = results.map(row => row.skills); 
+                    resolve(skills);
                 } else {
                     console.error("Error retrieving skills:", error);
-                    resolve([]); // Handle error appropriately
+                    resolve([]); 
                 }
             });
         });
@@ -70,9 +70,9 @@ class UserModel {
                 (error, result) => {
                     if (error) {
                         console.error("Error adding user:", error);
-                        reject(error); // Reject with error if insertion fails
+                        reject(error); 
                     } else {
-                        resolve(result); // Resolve with the result if insertion succeeds
+                        resolve(result); 
                     }
                 });
         });
@@ -97,9 +97,9 @@ class UserModel {
             db.query("UPDATE users SET name = ?, email = ?, password = ?, city=?, location=?, phone=?, gender=? WHERE id = ?", [id,name, email, password,city,location,phone,gender], (error, result) => {
                 if (error) {
                     console.error("Error editing user:", error);
-                    resolve(false); // Failed to edit user
+                    resolve(false); 
                 } else {
-                    resolve(true); // User edited successfully
+                    resolve(true); 
                 }
             });
         });

@@ -8,7 +8,7 @@ const db = mysql.createPool({
   database: "aswe"
 });
 
-// Get all tasks
+
 const getAlltasks = (callback) => {
   const query = 'SELECT * FROM tasks';
   db.query(query, (err, results) => {
@@ -21,7 +21,6 @@ const getAlltasks = (callback) => {
   });
 };
 
-// Add a new task
 const addtask = (taskData, callback) => {
   const { task_id, task_description, assigned_to, due_date, status } = taskData;
   const query = 'INSERT INTO tasks (task_id, task_description, assigned_to, due_date, status) VALUES (?, ?, ?, ?, ?)';
@@ -35,7 +34,7 @@ const addtask = (taskData, callback) => {
   });
 };
 
-// Update task status
+
 const updateTaskStatus = (taskId, newStatus, callback) => {
     const query = 'UPDATE tasks SET status = ? WHERE task_id = ?';
     db.query(query, [newStatus, taskId], (err, result) => {

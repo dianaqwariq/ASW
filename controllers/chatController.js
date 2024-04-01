@@ -2,7 +2,7 @@ const db = require('../config/db');
 
 exports.sendMessage = (req, res) => {
     const { email, message } = req.body;
-    const userEmail = req.user.email; // Extract the user's email from the token
+    const userEmail = req.user.email; 
 
     if (!userEmail || !email || !message) {
         return res.status(400).json({ error: "User email, recipient email, and message are required" });
@@ -26,7 +26,6 @@ exports.sendMessage = (req, res) => {
 
         const sender_id = results[0].id;
 
-        // Insert message into the messages table
         db.query('INSERT INTO messages (sender_id, message, sender_email, receiver_id) VALUES (?, ?, ?, ?)', [sender_id, message, userEmail, email], (err, result) => {
             if (err) {
                 console.error("Error saving message:", err);
