@@ -8,6 +8,7 @@ const mydb = require('./config/db');
  const userProfileRoutes = require('./routes/user_profile')
 const libraryRouter = require('./routes/library');
 const path=require("path")
+const router = require('./routes/router');
 
 const bodyParser = require('body-parser'); 
 
@@ -20,8 +21,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const dotenv = require("dotenv").config();
 const cookieParser = require("cookie-parser");
-const{authdelete}=require("./authMiddleware")
-const { check } = require("express-validator");
 const { fetchTemperature } = require('./weatherService');
 
 const { authenticateTokenHandler } = require("./models/auth");
@@ -49,19 +48,11 @@ app.use(express.static("public"));
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json());
 const taskController = require('./controllers/taskController');
+app.use('/', router);
+
 //app.post("/updateuser", authenticateTokenHandler ,authUpdate(["admin"]),usercontroller.updateuser);
 app.use('/library', authenticateTokenHandler, libraryRouter);
-app.post("/deleteuser",authenticateTokenHandler,authdelete(["admin"]), [
-    check("id").custom((value, { req }) => {
-        if (!value) {
-            throw new Error("id is required");
-        }
-        if (isNaN(value)) {
-            throw new Error("id should be only number");
-        }
-        return true; // Indicates the success of the validation
-    })
-],  usercontroller.deleteuser);
+
 
 app.use("/profile", userProfileRoutes)
  //app.use('/projects', authenticateTokenHandler, projectsRouter);
@@ -72,9 +63,7 @@ app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('Something broke!');
 });
-//app.post("/updateuser", authenticateTokenHandler ,authUpdate(["admin"]),usercontroller.updateuser);
 
-//app.get("/allusers", usercontroller.getalluser)
 app.get("/alltasks", authenticateTokenHandler, taskController.getAlltasks)
 app.post("/addTask", authenticateTokenHandler,taskController.addtask)
 app.post("/update_satus", authenticateTokenHandler,taskController.updateTaskStatus)

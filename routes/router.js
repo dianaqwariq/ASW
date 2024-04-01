@@ -3,17 +3,25 @@ const express = require('express');
 const usercontroller = require("../controllers/UserController");
 const router = require('express').Router();
 const { check } = require("express-validator");
+const { authenticateTokenHandler } = require("../models/auth");
+const{authdelete}=require("../authMiddleware");
 
 
-router.get("/",(req,res,next)=>{
-    res.send("diana")
-     })
-
-router.get("/allcraftskills",usercontroller.getallcraftskills)
+router.get("/allcraftskills", authenticateTokenHandler,usercontroller.getallcraftskills)
 router.post("/adduser",usercontroller.addUser)
 
-
-router.post("/updateuser", usercontroller.updateuser);
+router.post("/deleteuser",authenticateTokenHandler,authdelete(["admin"]), [
+    check("id").custom((value, { req }) => {
+        if (!value) {
+            throw new Error("id is required");
+        }
+        if (isNaN(value)) {
+            throw new Error("id should be only number");
+        }
+        return true; // Indicates the success of the validation
+    })
+],  usercontroller.deleteuser);
+//router.post("/updateuser", usercontroller.updateuser);
  
 
 router.get("/user/:id", [
@@ -26,15 +34,15 @@ router.get("/user/:id", [
         }
         return true; // Indicates the success of the validation
     })
-], usercontroller.getUserById);
+], authenticateTokenHandler, usercontroller.getUserById);
 
-router.get("/userByName/:name", usercontroller.getUserByName);
-router.get("/skill/:skills",usercontroller.getskill);
-router.get("/allSkills", usercontroller.getAllSkills);
-
-
+router.get("/userByName/:name", authenticateTokenHandler, usercontroller.getUserByName);
+router.get("/skill/:skills", authenticateTokenHandler,usercontroller.getskill);
+router.get("/allSkills", authenticateTokenHandler, usercontroller.getAllSkills);
 
 
-router.post("/updateuser/:id", usercontroller.updateUser);
+
+
+router.post("/updateuser/:id", authenticateTokenHandler, usercontroller.updateuser);
 
  module.exports=router;

@@ -96,5 +96,18 @@ class UserController {
             }
         }
     }
+    static async updateuser(req, res) {
+        const id = req.body.id;
+        const newname = req.body.name;
+        const newemail = req.body.email;
+        const newpass = req.body.password;
+
+        var x = await userModel.edit(id, newname, newemail, newpass);
+        if (x)
+            res.send("updated successfully");
+        else
+            res.send("update failed");
+    }
 }
+
 module.exports = UserController;
